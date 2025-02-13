@@ -7,15 +7,21 @@ pip install -r requirements.txt
 
 **Install for GPU:**
 
+```
 conda create --name torch_env python=3.9
 conda activate torch_env
 conda install pytorch cudatoolkit=11.3 -c pytorch
 pip install -r requirements.txt
+```
 
 **Discretizing**
 
-source discretize.sh
+To perform the training, the input files must be discretized. 
+This can be performed by running the discretization script, where the first argument is the path to the original h5 files.
 
+```
+source discretize.sh inputFiles/top_benchmark
+```
 
 
 

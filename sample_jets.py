@@ -24,14 +24,14 @@ parser.add_argument("--batchsize", type=int, default=100)
 parser.add_argument("--num_const", type=int, default=50)
 parser.add_argument("--seed", type=int, default=0)
 parser.add_argument("--trunc", type=float, default=None)
+parser.add_argument("--preprocessingDir", type=str, default="preprocessing_bins")
+parser.add_argument("--preprocessingBins", type=str, default="pt80_eta60_phi60_lower001")
 
 args = parser.parse_args()
 
 set_seeds(args.seed)
 
 device = "cuda" if torch.cuda.is_available() else "cpu"
-#assert device == "cuda", "Not running on GPU"
-#print(device)
 
 n_batches = args.num_samples // args.batchsize
 rest = args.num_samples % args.batchsize
@@ -82,7 +82,6 @@ bins = np.concatenate(bins, 0)
 dels = np.where(jets[:, 0, :].sum(-1) == 0)
 bins = np.delete(bins, dels, axis=0)
 jets = np.delete(jets, dels, axis=0)
-print(jets)
 
 print(f"Time needed {(time.time() - start) / float(len(jets))} seconds per jet")
 print(f"\t{int(time.time() - start)} seconds in total for {len(jets)} jets")
@@ -99,12 +98,11 @@ tree.Branch("constit_eta", constit_eta)
 constit_phi = ROOT.std.vector[float]()
 tree.Branch("constit_phi", constit_phi)
 
-pt_bins = np.load("preprocessing_bins/pt_bins_pt80_eta60_phi60_lower001.npy")
-eta_bins = np.load("preprocessing_bins/eta_bins_pt80_eta60_phi60_lower001.npy")
-phi_bins = np.load("preprocessing_bins/phi_bins_pt80_eta60_phi60_lower001.npy")
+pt_bins = np.load(args.preprocessingDir+"/pt_bins_" + args.preprocessingBins + ".npy")
+eta_bins = np.load(args.preprocessingDir+"/eta_bins_" + args.preprocessingBins + ".npy")
+phi_bins = np.load(args.preprocessingDir+"/phi_bins_" + args.preprocessingBins + ".npy")
 
 for jet in jets:
-
     constit_pt_binned = []
     constit_eta_binned = []
     constit_phi_binned = []
@@ -118,12 +116,10 @@ for jet in jets:
     constit_pt.reserve(len(jet))
     constit_eta.reserve(len(jet))
     constit_phi.reserve(len(jet))
-    print(jet)
     for constit in jet:
         constit_pt_binned.append(constit[0])
         constit_eta_binned.append(constit[1])
         constit_phi_binned.append(constit[2])
-
 
     mask = constit_pt_binned == 0
 
@@ -137,6 +133,7 @@ for jet in jets:
         phi_bins[1] - phi_bins[0]
     ) + phi_bins[0]
 
+    # Probably this could be handled better, but it works fine for now
     for i in range(len(constit_pt_tmp)):
       constit_pt.push_back(constit_pt_tmp[i])
       constit_eta.push_back(constit_eta_tmp[i])
@@ -156,8 +153,6 @@ cols = [
     for sublist in [f"PT_{i},Eta_{i},Phi_{i}".split(",") for i in range(c)]
     for item in sublist
 ]
-print(cols)
 df = pd.DataFrame(data, columns=cols)
-print(os.path.join(args.model_dir, f"samples_{args.savetag}.h5"))
 df.to_hdf(os.path.join(args.model_dir, f"samples_{args.savetag}.h5"), key="discretized")
 
