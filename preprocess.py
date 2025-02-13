@@ -155,17 +155,26 @@ def discretize_data(
     nJets=None,
 ):
     def read_input():
+        print ("test2.1")
         es = [f"E_{i}" for i in range(200)]
+        print ("test2.2")
         px = [f"PX_{i}" for i in range(200)]
+        print ("test2.3")
         py = [f"PY_{i}" for i in range(200)]
+        print ("test2.4")
         pz = [f"PZ_{i}" for i in range(200)]
+        print ("test2.5")
         cols = [item for sublist in zip(es, px, py, pz) for item in sublist]
+        print ("test2.6")
+        print(input_file) 
+        #print(pd.read_hdf(input_file))
 
         df = pd.read_hdf(
             input_file,
             key="table",
             stop=nJets,
         )
+        print ("test2.7")
         df = df[df["is_signal_new"] == class_label]
         df = df[cols]
         data = df.to_numpy()
@@ -250,13 +259,16 @@ def discretize_data(
 
     print(f"Input: {input_file}\nOutput: {output_file}")
 
+    print ("test2")
     data = read_input()
     print(f"Data shape: {data.shape}\n")
     const_pt, d_eta, d_phi = calculate_features(data)
     check_pt_oredering(const_pt)
 
+    print ("test3")
     pt_bins, eta_bins, phi_bins = get_binning()
     const_pt_disc, d_eta_disc, d_phi_disc = discretize()
+    print ("test4")
 
     print(f"\npT bin range: {const_pt_disc[const_pt!=0].min()} {const_pt_disc.max()}")
     print(f"eta bin range: {d_eta_disc[const_pt!=0].min()} {d_eta_disc.max()}")
@@ -296,6 +308,7 @@ if __name__ == "__main__":
     output_file = f"{train_test}_{['qcd', 'top'][args.class_label]}_{args.tag}.h5"
     output_file = os.path.join(output_path, output_file)
 
+    print ("test1")
     discretize_data(
         class_label=args.class_label,
         tag=args.tag,

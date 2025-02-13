@@ -35,16 +35,16 @@ python evaluate_probabilities.py \\
 
 
 models = [
-    "/home/bn227573/Projects/Transformers/final_repo/models/qcd_final_1/qcd_hl8_hd256/model_last.pt",
-    "/home/bn227573/Projects/Transformers/final_repo/models/top_final/top_hl8_hd256/model_last.pt",
-    "/home/bn227573/Projects/Transformers/final_repo/models/top_final/top_hl8_hd256_nc100/model_last.pt",
+    "output/Transformers/final_repo/models/qcd_final_1/qcd_hl8_hd256/model_last.pt",
+    "output/Transformers/final_repo/models/top_final/top_hl8_hd256/model_last.pt",
+    "output/Transformers/final_repo/models/top_final/top_hl8_hd256_nc100/model_last.pt",
 ]
 
 data_paths = [
-    "/hpcwork/rwth0934/top_benchmark/discretized/test_qcd_pt40_eta30_phi30_lower001.h5",
-    "/hpcwork/rwth0934/top_benchmark/discretized/train_qcd_pt40_eta30_phi30_lower001.h5",
-    "/hpcwork/rwth0934/top_benchmark/discretized/test_top_pt40_eta30_phi30_lower001.h5",
-    "/hpcwork/rwth0934/top_benchmark/discretized/train_top_pt40_eta30_phi30_lower001.h5",
+    "inputFiles/top_benchmark/discretized/test_qcd_pt40_eta30_phi30_lower001.h5",
+    "inputFiles/top_benchmark/discretized/train_qcd_pt40_eta30_phi30_lower001.h5",
+    "inputFiles/top_benchmark/discretized/test_top_pt40_eta30_phi30_lower001.h5",
+    "inputFiles/top_benchmark/discretized/train_top_pt40_eta30_phi30_lower001.h5",
 ]
 
 tags = [

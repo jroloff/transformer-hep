@@ -1,8 +1,11 @@
-numpy
+numpy==1.26.4
 pandas
-tqdm
 tables
-protobuf==3.20
+pytorch
+torch
+tqdm
 tensorboard
-scikit-learn
 matplotlib
+scikit-learn
+pyroot
+protobuf==3.20

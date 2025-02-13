@@ -17,7 +17,7 @@ vector.register_awkward()
 # Get all root files corresponding to a given label within a folder
 files = []
 label = "TTBar_"
-folder = "/hpcwork/bn227573/JetClass/part1"
+folder = "inputFiles/JetClass/part1"
 for moth, sub, fs in os.walk(folder):
     for f in fs:
         if f.startswith(label) and f.endswith(".root"):

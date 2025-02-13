@@ -73,7 +73,7 @@ def parse_input():
     parser.add_argument(
         "--data_path",
         type=str,
-        default="/hpcwork/bn227573/top_benchmark/train_qcd_30_bins.h5",
+        default="inputFiles/top_benchmark/train_qcd_30_bins.h5",
         help="Path to training data file",
     )
     parser.add_argument(

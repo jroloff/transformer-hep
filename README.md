@@ -1,17 +1,34 @@
-Install Dependencies for GPU (with anaconda):
+**Install Dependencies for CPU:**
 ```
+python3.13 -m venv venv
+source venv/bin/activate
+pip install -r requirements.txt
+```
+
+**Install for GPU:**
+
 conda create --name torch_env python=3.9
 conda activate torch_env
 conda install pytorch cudatoolkit=11.3 -c pytorch
 pip install -r requirements.txt
-```
-Change "+cu113" to "+cpu" if you have no gpu
+
+**Discretizing**
+
+source discretize.sh
+
+
 
 
 To train a model run:
 ```
 python train.py
 ```
+
+
+**Input Files**
+
+
+Input files for this code can be found at https://zenodo.org/records/2603256
 
 
 **CITATION**

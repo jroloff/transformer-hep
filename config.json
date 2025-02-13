@@ -1,9 +1,9 @@
 {
     "Transformer": {
         "num_epochs": 50,
-        "data_path": "/hpcwork/rwth0934/top_benchmark/discretized/train_top_pt40_eta30_phi30_lower001.h5",
+        "data_path": "inputFiles/top_benchmark/discretized/train_top_pt40_eta30_phi30_lower001.h5",
         "seed": 19950701,
-        "log_dir": "/home/bn227573/Projects/Transformers/final_repo/models/top_large",
+        "log_dir": "output/Transformers/final_repo/models/top_large",
         "batch_size": 100,
         "num_events": 600000,
         "num_const": 100,
@@ -57,7 +57,7 @@
         ]
     },
     "ParticleNet": {
-        "config_loc": "/home/bn227573/Projects/Transformers/final_repo",
+        "config_loc": "output/Transformers/final_repo",
         "graphnet": {
             "activation": "LeakyReLU",
             "k": 16,
@@ -87,7 +87,7 @@
             "static": false
         },
         "data": {
-            "bg_file": "/hpcwork/rwth0934/top_benchmark/discretized/train_top_pt40_eta30_phi30_lower001.h5",
+            "bg_file": "inputFiles/top_benchmark/discretized/train_top_pt40_eta30_phi30_lower001.h5",
             "n_jets": 200000,
             "n_const": 100,
             "bg_key": "discretized",
@@ -112,27 +112,27 @@
         "Transformer": {
             "filename": "jobscripts/jobscript_trafo.sh",
             "jobname": "top_large",
-            "out_file": "/home/bn227573/out/top_large_trafo",
+            "out_file": "output/out/top_large_trafo",
             "runtime": 500,
             "mem_req": 4,
-            "dir": "/home/bn227573/Projects/Transformers/final_repo",
+            "dir": "output/Transformers/final_repo",
             "env": "torchProd"
         },
         "Sampling": {
             "filename": "jobscripts/jobscript_sample.sh",
             "jobname": "top_large_sample",
-            "out_file": "/home/bn227573/out/top_large_sample",
+            "out_file": "output/out/top_large_sample",
             "runtime": 120,
             "mem_req": 3,
-            "dir": "/home/bn227573/Projects/Transformers/final_repo",
+            "dir": "output/Transformers/final_repo",
             "env": "torchProd"
         },
         "ParticleNet": {
             "jobname": "top_large_pnet",
-            "out_file": "/home/bn227573/out/top_large_pnet",
+            "out_file": "output/out/top_large_pnet",
             "runtime": 330,
             "mem_req": 3,
-            "dir": "/home/bn227573/Projects/Transformers/final_repo/particlenet",
+            "dir": "output/Transformers/final_repo/particlenet",
             "env": "monoJet"
         }
     }

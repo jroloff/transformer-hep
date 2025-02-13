@@ -373,9 +373,9 @@ class JetTransformer(Module):
     def idx_to_bins(self, x):
         pT = x % self.num_bins[0]
         eta = torch.div((x - pT), self.num_bins[0], rounding_mode="trunc") % torch.div(
-            torch.prod(self.num_bins[:2]), self.num_bins[0], rounding_mode="trunc"
+            torch.prod(torch.tensor(self.num_bins[:2])), self.num_bins[0], rounding_mode="trunc"
         )
-        phi = torch.div((x - pT - self.num_bins[0] * eta), torch.prod(self.num_bins[:2]), rounding_mode="trunc")
+        phi = torch.div((x - pT - self.num_bins[0] * eta), torch.prod(torch.tensor(self.num_bins[:2])), rounding_mode="trunc")
         return torch.stack((pT, eta, phi), dim=-1)
 
 

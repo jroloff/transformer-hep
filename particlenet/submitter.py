@@ -39,9 +39,9 @@ job_n = 0
 
 config = json.load(open("config_default.json", "r"))
 
-config["data"]["bg_file"] = "/hpcwork/rwth0934/top_benchmark/discretized/train_qcd_pt40_eta30_phi30_lower001.h5"
+config["data"]["bg_file"] = "inputFiles/top_benchmark/discretized/train_qcd_pt40_eta30_phi30_lower001.h5"
 config["data"]["bg_key"] = "discretized"
-config["data"]["sig_file"] = "/hpcwork/rwth0934/top_benchmark/discretized/train_top_pt40_eta30_phi30_lower001.h5"
+config["data"]["sig_file"] = "inputFiles/top_benchmark/discretized/train_top_pt40_eta30_phi30_lower001.h5"
 config["data"]["sig_key"] = "discretized"
 config["data"]["n_const"] = 100
 config["data"]["n_jets"] = 200000
@@ -89,8 +89,8 @@ for setting in ["discretized", "raw"]:
     print(f"Submitted {filename}")
 
 # Run for samples
-bg_files = ["/hpcwork/rwth0934/top_benchmark/discretized/val_qcd_pt40_eta30_phi30_lower001.h5"] * 2 + \
-    ["/hpcwork/rwth0934/top_benchmark/discretized/val_top_pt40_eta30_phi30_lower001.h5"]* 2
+bg_files = ["inputFiles/top_benchmark/discretized/val_qcd_pt40_eta30_phi30_lower001.h5"] * 2 + \
+    ["inputFiles/top_benchmark/discretized/val_top_pt40_eta30_phi30_lower001.h5"]* 2
 
 sig_files = [
     "/home/bn227573/Projects/Transformers/final_repo/models/qcd_final_1/qcd_hl8_hd256/samples_train_100.h5",

@@ -22,7 +22,7 @@ def parse_input():
     parser = ArgumentParser()
     parser.add_argument("--model_dir", type=str, default='models/test', help="Model directory")
     parser.add_argument("--model_name", type=str, default='best', help="Model name")
-    parser.add_argument("--data_path", type=str, default='/hpcwork/bn227573/top_benchmark/', help="Path to training data file")
+    parser.add_argument("--data_path", type=str, default='inputFiles/top_benchmark/', help="Path to training data file")
 
     parser.add_argument("--num_workers", type=int, default=1, help="Number of workers")
     parser.add_argument("--batch_size", type=int, default=128, help="Number of workers")

@@ -35,9 +35,9 @@ def moving_average(a, n=3):
 
 # %%
 def make_continues(jets):
-    pt_bins = np.load("preprocessing_bins/pt_bins_30_bins.npy")
-    eta_bins = np.load("preprocessing_bins/eta_bins_30_bins.npy")
-    phi_bins = np.load("preprocessing_bins/phi_bins_30_bins.npy")
+    pt_bins = np.load("preprocessing_bins/pt_bins_pt80_eta60_phi60_lower001.npy")
+    eta_bins = np.load("preprocessing_bins/eta_bins_pt80_eta60_phi60_lower001.npy")
+    phi_bins = np.load("preprocessing_bins/phi_bins_pt80_eta60_phi60_lower001.npy")
 
     pt_disc = jets[:, :, 0]
     mask = pt_disc == 0
@@ -263,7 +263,7 @@ fig, ax = plt.subplots(constrained_layout=True)
 ax.plot(tpr, 1.0 / fpr, label=f"Last AUC: {auc:.3f}")
 ax.plot(np.linspace(0, 1, 1000), 1.0 / np.linspace(0, 1, 1000), color="grey")
 
-classi = torch.load(os.path.join(args.save_dir, "classifier_best.pt"))
+classi = torch.load(os.path.join(args.save_dir, "classifier_best.pt"), weights_only=False)
 labels = []
 preds = []
 classi.eval()

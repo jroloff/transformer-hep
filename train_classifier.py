@@ -34,13 +34,13 @@ def parse_input():
     parser.add_argument(
         "--bg",
         type=str,
-        default="/hpcwork/bn227573/top_benchmark/train_qcd_30_bins.h5",
+        default="inputFiles/top_benchmark/train_qcd_30_bins.h5",
         help="Path to background data file",
     )
     parser.add_argument(
         "--sig",
         type=str,
-        default="/hpcwork/bn227573/top_benchmark/train_top_30_bins.h5",
+        default="inputFiles/top_benchmark/train_top_30_bins.h5",
         help="Path to signal data file",
     )
     parser.add_argument(

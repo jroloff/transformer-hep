@@ -39,24 +39,15 @@ python test_samples.py --bg {bg} \\
 
 
 data_files = {}
-data_files["qcd"] = "/hpcwork/bn227573/top_benchmark/test_qcd_30_bins.h5"
-data_files["top"] = "/hpcwork/bn227573/top_benchmark/test_top_30_bins.h5"
+data_files["qcd"] = "inputFiles/top_benchmark/test_qcd_30_bins.h5"
+data_files["top"] = "inputFiles/top_benchmark/test_top_30_bins.h5"
 
-# sample_files = []
-# params = []
-# for t in ["_tanh", ""]:
-#     for s in ["qcd", "top"]:
-#         for c in [50, 100]:
-#             sample_files.append(
-#                 f"/hpcwork/bn227573/Transformers/models/end_token/end_token_noAdd{t}_{s}/samples_{c}.npz"
-#             )
-#             params.append([c, data_files[s], f"sample_tests/{s}{t}_{c}", f"{s+t}_{c}"])
 
 # for x, y in zip(sample_files, params):
-for folder in os.listdir("/hpcwork/bn227573/Transformers/models/scan2"):
+for folder in os.listdir("output/Transformers/models/scan2"):
     bg = data_files["qcd"]
     sig = os.path.join(
-        "/hpcwork/bn227573/Transformers/models/scan2", folder, "samples_100.npz"
+        "output/Transformers/models/scan2", folder, "samples_100.npz"
     )
     N = 20000
     E = 20

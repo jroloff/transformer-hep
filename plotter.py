@@ -245,7 +245,7 @@ def plot_max_index(dir):
 
 
 def plot_bin_distribution():
-    bg_file = "/hpcwork/rwth0934/top_benchmark/discretized/train_qcd_pt40_eta30_phi30.h5"
+    bg_file = "inputFiles/top_benchmark/discretized/train_qcd_pt40_eta30_phi30.h5"
     from preprocess import preprocess_dataframe
 
     bg_data = pd.read_hdf(bg_file, key="discretized", stop=None)

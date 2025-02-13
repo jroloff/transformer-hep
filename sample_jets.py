@@ -3,7 +3,9 @@ import numpy as np
 import pandas as pd
 from tqdm import tqdm
 import time, os
+import ROOT 
 from argparse import ArgumentParser
+from array import array
 
 torch.multiprocessing.set_sharing_strategy("file_system")
 
@@ -28,14 +30,14 @@ args = parser.parse_args()
 set_seeds(args.seed)
 
 device = "cuda" if torch.cuda.is_available() else "cpu"
-assert device == "cuda", "Not running on GPU"
-print(device)
+#assert device == "cuda", "Not running on GPU"
+#print(device)
 
 n_batches = args.num_samples // args.batchsize
 rest = args.num_samples % args.batchsize
 
 # Load model for sampling
-model = torch.load(os.path.join(args.model_dir, args.model_name))
+model = torch.load(os.path.join(args.model_dir, args.model_name), weights_only=False)
 model.classifier = False
 model.to(device)
 model.eval()
@@ -80,9 +82,71 @@ bins = np.concatenate(bins, 0)
 dels = np.where(jets[:, 0, :].sum(-1) == 0)
 bins = np.delete(bins, dels, axis=0)
 jets = np.delete(jets, dels, axis=0)
+print(jets)
 
 print(f"Time needed {(time.time() - start) / float(len(jets))} seconds per jet")
 print(f"\t{int(time.time() - start)} seconds in total for {len(jets)} jets")
+
+file = ROOT.TFile.Open("tree_tester.root", "RECREATE")
+tree = ROOT.TTree("tree","tree")
+myvar = array('f')
+
+
+constit_pt = ROOT.std.vector[float]()
+tree.Branch("constit_pt", constit_pt)
+constit_eta = ROOT.std.vector[float]()
+tree.Branch("constit_eta", constit_eta)
+constit_phi = ROOT.std.vector[float]()
+tree.Branch("constit_phi", constit_phi)
+
+pt_bins = np.load("preprocessing_bins/pt_bins_pt80_eta60_phi60_lower001.npy")
+eta_bins = np.load("preprocessing_bins/eta_bins_pt80_eta60_phi60_lower001.npy")
+phi_bins = np.load("preprocessing_bins/phi_bins_pt80_eta60_phi60_lower001.npy")
+
+for jet in jets:
+
+    constit_pt_binned = []
+    constit_eta_binned = []
+    constit_phi_binned = []
+
+    # Clear the contents of the vector
+    constit_pt.clear()
+    constit_eta.clear()
+    constit_phi.clear()
+    # Replace the contents in the vector with the contents
+    # from the current array
+    constit_pt.reserve(len(jet))
+    constit_eta.reserve(len(jet))
+    constit_phi.reserve(len(jet))
+    print(jet)
+    for constit in jet:
+        constit_pt_binned.append(constit[0])
+        constit_eta_binned.append(constit[1])
+        constit_phi_binned.append(constit[2])
+
+
+    mask = constit_pt_binned == 0
+
+    constit_pt_tmp = (constit_pt_binned - np.random.uniform(0.0, 1.0, size=np.array(constit_pt_binned).shape)) * (
+        pt_bins[1] - pt_bins[0]
+    ) + pt_bins[0]
+    constit_eta_tmp = (constit_eta_binned - np.random.uniform(0.0, 1.0, size=np.array(constit_eta_binned).shape)) * (
+        eta_bins[1] - eta_bins[0]
+    ) + eta_bins[0]
+    constit_phi_tmp = (constit_phi_binned - np.random.uniform(0.0, 1.0, size=np.array(constit_phi_binned).shape)) * (
+        phi_bins[1] - phi_bins[0]
+    ) + phi_bins[0]
+
+    for i in range(len(constit_pt_tmp)):
+      constit_pt.push_back(constit_pt_tmp[i])
+      constit_eta.push_back(constit_eta_tmp[i])
+      constit_phi.push_back(constit_phi_tmp[i])
+
+    tree.Fill()
+
+file.WriteObject(tree, "tree")
+file.Close()
+
 
 jets[jets.sum(-1) == 0] = -1
 n, c, f = np.shape(jets)
@@ -92,6 +156,8 @@ cols = [
     for sublist in [f"PT_{i},Eta_{i},Phi_{i}".split(",") for i in range(c)]
     for item in sublist
 ]
+print(cols)
 df = pd.DataFrame(data, columns=cols)
+print(os.path.join(args.model_dir, f"samples_{args.savetag}.h5"))
 df.to_hdf(os.path.join(args.model_dir, f"samples_{args.savetag}.h5"), key="discretized")
 

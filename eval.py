@@ -23,7 +23,7 @@ if __name__ == '__main__':
     parser = ArgumentParser()
     parser.add_argument("--model_dir", type=str, default='models/test', help="Model directory")
     parser.add_argument("--model_name", type=str, default='last', help="Checkpoint name")
-    parser.add_argument("--data_path", type=str, default='/hpcwork/bn227573/top_benchmark/', help="Path to training data file")
+    parser.add_argument("--data_path", type=str, default='inputFiles/top_benchmark/', help="Path to training data file")
     parser.add_argument("--data_split", type=str, default='test', help="Split to evaluate")
     parser.add_argument("--num_workers", type=int, default=1, help="Number of workers")
     parser.add_argument("--num_const", type=int, default=100, help="Number of constituents")
