@@ -3,6 +3,7 @@ import numpy as np
 import pandas as pd
 from tqdm import tqdm
 import time, os
+import math
 import ROOT 
 from argparse import ArgumentParser
 from array import array
@@ -19,7 +20,7 @@ parser = ArgumentParser()
 parser.add_argument("--model_dir", type=str, default="models/test")
 parser.add_argument("--model_name", type=str, default="model_last.pt")
 parser.add_argument("--savetag", type=str, default="test")
-parser.add_argument("--num_samples", type=int, default=100000)
+parser.add_argument("--num_samples", type=int, default=1000)
 parser.add_argument("--batchsize", type=int, default=100)
 parser.add_argument("--num_const", type=int, default=50)
 parser.add_argument("--seed", type=int, default=0)
@@ -133,7 +134,7 @@ for jet in jets:
 
     # Probably this could be handled better, but it works fine for now
     for i in range(len(constit_pt_tmp)):
-      constit_pt.push_back(constit_pt_tmp[i])
+      constit_pt.push_back(math.exp(constit_pt_tmp[i]))
       constit_eta.push_back(constit_eta_tmp[i])
       constit_phi.push_back(constit_phi_tmp[i])
 

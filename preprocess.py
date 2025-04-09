@@ -290,8 +290,47 @@ def discretize_data(
     const_pt, d_eta, d_phi = calculate_features(data)
     check_pt_oredering(const_pt)
 
+
+
+    file = ROOT.TFile.Open("originalJets.root", "RECREATE")
+    tree = ROOT.TTree("tree","tree")
+
+    constit_pt = ROOT.std.vector[float]()
+    tree.Branch("constit_pt", constit_pt)
+    constit_eta = ROOT.std.vector[float]()
+    tree.Branch("constit_eta", constit_eta)
+    constit_phi = ROOT.std.vector[float]()
+    tree.Branch("constit_phi", constit_phi)
+
+    for cjet_pt, cjet_eta, cjet_phi in zip(const_pt, d_eta, d_phi):
+        # Clear the contents of the vector
+        constit_pt.clear()
+        constit_eta.clear()
+        constit_phi.clear()
+        # Replace the contents in the vector with the contents
+        # from the current array
+        mask = cjet_pt > 0
+        nconstit = len(cjet_pt[mask])
+        constit_pt.reserve(len(cjet_pt))
+        constit_eta.reserve(len(cjet_pt))
+        constit_phi.reserve(len(cjet_pt))
+        for cpt, ceta, cphi in zip(cjet_pt, cjet_eta, cjet_phi):
+            if(cpt > 0):
+              constit_pt.push_back(cpt)
+              constit_eta.push_back(ceta)
+              constit_phi.push_back(cphi)
+
+        tree.Fill()
+
+    file.WriteObject(tree, "tree")
+    file.Close()
+
+
+
     pt_bins, eta_bins, phi_bins = get_binning()
     const_pt_disc, d_eta_disc, d_phi_disc = discretize()
+ 
+    print("testing shape: ", const_pt.shape)
 
     print(f"\npT bin range: {const_pt_disc[const_pt!=0].min()} {const_pt_disc.max()}")
     print(f"eta bin range: {d_eta_disc[const_pt!=0].min()} {d_eta_disc.max()}")
