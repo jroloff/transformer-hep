@@ -174,37 +174,6 @@ def discretize_data(
         data = df.to_numpy()
         data = data.reshape((-1, 200, 4))
 
-        file = ROOT.TFile.Open("originalJets.root", "RECREATE")
-        tree = ROOT.TTree("tree","tree")
-
-        constit_pt = ROOT.std.vector[float]()
-        tree.Branch("constit_pt", constit_pt)
-        constit_eta = ROOT.std.vector[float]()
-        tree.Branch("constit_eta", constit_eta)
-        constit_phi = ROOT.std.vector[float]()
-        tree.Branch("constit_phi", constit_phi)
-
-        for jet in data:
-            # Clear the contents of the vector
-            constit_pt.clear()
-            constit_eta.clear()
-            constit_phi.clear()
-            # Replace the contents in the vector with the contents
-            # from the current array
-            constit_pt.reserve(len(jet))
-            constit_eta.reserve(len(jet))
-            constit_phi.reserve(len(jet))
-            for constit in jet:
-                constit_pt.push_back(constit[0])
-                constit_eta.push_back(constit[1])
-                constit_phi.push_back(constit[2])
-
-            tree.Fill()
-
-        file.WriteObject(tree, "tree")
-        file.Close()
-
-
         return data
 
     def calculate_features(momenta):
@@ -291,8 +260,10 @@ def discretize_data(
     check_pt_oredering(const_pt)
 
 
-
-    file = ROOT.TFile.Open("originalJets.root", "RECREATE")
+    labelType = "qcd"
+    if args.class_label == 1:
+      labelType = "top"
+    file = ROOT.TFile.Open("originalJets_%s.root"%labelType, "RECREATE")
     tree = ROOT.TTree("tree","tree")
 
     constit_pt = ROOT.std.vector[float]()
